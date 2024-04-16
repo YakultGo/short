@@ -42,7 +42,7 @@ type (
 		CreateBy string         `db:"create_by"` // 创建者
 		IsDel    int64          `db:"is_del"`    // 是否删除：0正常1删除
 		Lurl     sql.NullString `db:"lurl"`      // 长链接
-		Md5      sql.NullString `db:"md5"`       // ⻓链接MD5
+		Md5      sql.NullString `db:"extract"`   // ⻓链接MD5
 		Surl     sql.NullString `db:"surl"`      // 短链接
 	}
 )
@@ -76,7 +76,7 @@ func (m *defaultShortUrlMapModel) FindOne(ctx context.Context, id int64) (*Short
 
 func (m *defaultShortUrlMapModel) FindOneByMd5(ctx context.Context, md5 sql.NullString) (*ShortUrlMap, error) {
 	var resp ShortUrlMap
-	query := fmt.Sprintf("select %s from %s where `md5` = ? limit 1", shortUrlMapRows, m.table)
+	query := fmt.Sprintf("select %s from %s where `extract` = ? limit 1", shortUrlMapRows, m.table)
 	err := m.conn.QueryRowCtx(ctx, &resp, query, md5)
 	switch err {
 	case nil:

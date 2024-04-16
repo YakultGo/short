@@ -83,3 +83,14 @@ go run .
 ```
 Starting server at 0.0.0.0:8888...
 ```
+
+6. 修改配置结构和配置文件
+注意：两边要对齐
+
+## 参数校验
+
+1. go-zero 使用validator进行参数校验
+下载validator
+```bash
+go get github.com/go-playground/validator/v10
+```
