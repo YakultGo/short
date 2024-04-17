@@ -9,7 +9,7 @@ import (
 // REPLACE INFO sequence(stub) VALUES('a');
 // SELECT LAST_INSERT_ID();
 const (
-	sqlReplaceInfoStub = `REPLACE INFO sequence(stub) VALUES('a');`
+	sqlReplaceInfoStub = `replace INTO sequence (stub) VALUES ('a');`
 )
 
 type MySQL struct {
@@ -22,6 +22,7 @@ func NewMySQL(dsn string) *MySQL {
 	}
 }
 
+// Next 生成下一个id
 func (m *MySQL) Next() (uint64, error) {
 	stmt, err := m.conn.Prepare(sqlReplaceInfoStub)
 	if err != nil {

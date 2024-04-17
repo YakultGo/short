@@ -5,3 +5,5 @@ ShortUrlDB:
     DSN: root:chg123456@tcp(127.0.0.1:3306)/db3?charset=utf8mb4&parseTime=True&loc=Local
 Sequence:
     DSN: root:chg123456@tcp(127.0.0.1:3306)/db3?charset=utf8mb4&parseTime=True&loc=Local
+ShortUrlBlacklist: ["version","fuck","stupid","convert","health","api","css","js"]
+ShortDomain: yakult

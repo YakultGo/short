@@ -12,4 +12,6 @@ type Config struct {
 	Sequence struct {
 		DSN string
 	}
+	ShortUrlBlacklist []string
+	ShortDomain       string
 }
