@@ -8,6 +8,8 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"shortener/internal/svc"
 	"shortener/internal/types"
+	"shortener/model"
+	"shortener/pkg/base62"
 	"shortener/pkg/connect"
 	"shortener/pkg/extract"
 	"shortener/pkg/urlTool"
@@ -67,8 +69,41 @@ func (l *ConvertLogic) Convert(req *types.ConvertRequest) (resp *types.ConvertRe
 		logx.Errorw("ShortUrlModel.FindOneBySurl failed", logx.LogField{Key: "err", Value: err.Error()})
 		return nil, err
 	}
-	// 2. 生成短链接
-	// 3. 保存短链接
-	// 4. 返回响应
-	return
+	var short string
+	for {
+		// 2. 取号
+		seq, err := l.svcCtx.Sequence.Next()
+		if err != nil {
+			logx.Errorw("svcCtx.Sequence.Next failed", logx.LogField{Key: "err", Value: err.Error()})
+			return nil, err
+		}
+		// 3. 生成短链接
+		short = base62.Encode(seq)
+		if _, ok := l.svcCtx.Blacklist[short]; !ok {
+			break
+		}
+	}
+	// 4. 保存短链接
+	if _, err := l.svcCtx.ShortUrlModel.Insert(l.ctx, &model.ShortUrlMap{
+		Lurl: sql.NullString{
+			String: req.LongUrl,
+			Valid:  true,
+		},
+		Md5: sql.NullString{
+			String: md5Value,
+			Valid:  true,
+		},
+		Surl: sql.NullString{
+			String: short,
+			Valid:  true,
+		},
+	}); err != nil {
+		logx.Errorw("ShortUrlModel.Insert failed", logx.LogField{Key: "err", Value: err.Error()})
+		return nil, err
+	}
+	// 5. 返回响应 返回短域名+短链接
+	shortUrl := l.svcCtx.Config.ShortDomain + "/" + short
+	return &types.ConvertResponse{
+		ShortUrl: shortUrl,
+	}, nil
 }
