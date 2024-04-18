@@ -63,11 +63,11 @@ goctl api go -api shortener.api -dir .
 
 3. 根据数据表生成model层代码
 ```bash
-goctl model mysql datasource -url="root:chg123456@tcp(127.0.0.1:3306)/db3" -table="short_url_map" -dir="./model"
+goctl model mysql datasource -url="root:123456@tcp(127.0.0.1:3306)/db3" -table="short_url_map" -dir="./model"
 ```
 
 ```bash
-goctl model mysql datasource -url="root:chg123456@tcp(127.0.0.1:3306)/db3" -table="sequence" -dir="./model"
+goctl model mysql datasource -url="root:123456@tcp(127.0.0.1:3306)/db3" -table="sequence" -dir="./model"
 ```
 
 4. 下载项目依赖
@@ -102,5 +102,5 @@ go get github.com/go-playground/validator/v10
 本项目使用第二种方案
 重新生成model层代码
 ```bash
-goctl model mysql datasource -url="root:chg123456@tcp(127.0.0.1:3306)/db3" -table="short_url_map" -dir="./model" -c
+goctl model mysql datasource -url="root:123456@tcp(127.0.0.1:3306)/db3" -table="short_url_map" -dir="./model" -c
 ```
