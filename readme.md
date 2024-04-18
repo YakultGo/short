@@ -94,3 +94,13 @@ Starting server at 0.0.0.0:8888...
 ```bash
 go get github.com/go-playground/validator/v10
 ```
+
+## 添加缓存
+有两种方式
+1. 自己使用redis去存储
+2. 使用go-zero自带的缓存
+本项目使用第二种方案
+重新生成model层代码
+```bash
+goctl model mysql datasource -url="root:chg123456@tcp(127.0.0.1:3306)/db3" -table="short_url_map" -dir="./model" -c
+```
